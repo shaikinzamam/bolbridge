@@ -1,0 +1,4 @@
+.env
+voices.json
+__pycache__/
+*.wav

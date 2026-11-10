@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BolBridge</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232d6a64'/%3E%3Cpath d='M18 22h28M18 32h20M18 42h28' stroke='white' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Noto+Sans:wght@400;600&family=Noto+Sans+Bengali:wght@400;600&family=Noto+Sans+Devanagari:wght@400;600&family=Noto+Sans+Gujarati:wght@400;600&family=Noto+Sans+Gurmukhi:wght@400;600&family=Noto+Sans+Kannada:wght@400;600&family=Noto+Sans+Malayalam:wght@400;600&family=Noto+Sans+Tamil:wght@400;600&family=Noto+Sans+Telugu:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header class="top">
+  <h1>BolBridge</h1>
+  <p class="tag">Speak your language. They hear theirs.</p>
+  <p class="echo-notice">Use headphones to avoid echo.</p>
+  <label class="raw"><input type="checkbox" id="raw"> Raw mic (turn off browser noise filter)</label>
+  <label class="tap"><input type="checkbox" id="tap"> Tap mode (click to start/stop)</label>
+  <label class="mute"><input type="checkbox" id="mute"> Mute playback</label>
+</header>
+
+<main class="stage">
+  <!-- Speaker A -->
+  <section class="panel a" data-side="A" aria-label="Speaker A">
+    <div class="panel-head">
+      <h2>Speaker A</h2>
+      <span class="voice-badge" data-badge>Stock voice</span>
+    </div>
+    <div class="langs">
+      <label>I speak <select data-src></select></label>
+      <label>I hear <select data-hear></select></label>
+      <p class="hint ad-hint" data-src-hint>Auto-detect can mislabel English or mixed Hindi-English. Pick a language for best results.</p>
+    </div>
+    <div class="feed" data-feed aria-live="polite"></div>
+    <button class="talk" data-talk type="button" aria-label="Tap to talk as speaker A"><span class="ring"></span><span class="talk-label">Tap to talk</span><span class="recording-time" data-rec-time hidden>0:00</span><span class="key">key A</span></button>
+    <form class="text-turn" data-text-turn>
+      <label for="text-a">Type instead</label>
+      <div class="text-turn-row"><input id="text-a" data-text-input maxlength="2000" autocomplete="off"><button type="submit">Send</button></div>
+    </form>
+    <details class="enroll">
+      <summary>Clone my voice</summary>
+      <label class="consent"><input type="checkbox" data-consent> This is my own voice, or the speaker has agreed to be cloned.</label>
+      <p class="hint">Speak naturally for 10 to 20 seconds, in a quiet place.</p>
+      <div class="enroll-actions">
+        <button type="button" class="enroll-btn" data-enroll>Record voice sample</button>
+        <button type="button" class="enroll-btn secondary" data-play-sample disabled>Play my sample</button>
+        <button type="button" class="enroll-btn secondary" data-preview>Preview my voice</button>
+        <button type="button" class="enroll-btn secondary danger" data-remove-voice>Remove my voice</button>
+      </div>
+    </details>
+  </section>
+
+  <!-- Bridge -->
+  <div class="bridge" aria-hidden="true">
+    <div class="line"></div>
+    <div class="status" id="status" aria-live="polite">Ready</div>
+    <div class="line"></div>
+  </div>
+
+  <!-- Speaker B -->
+  <section class="panel b" data-side="B" aria-label="Speaker B">
+    <div class="panel-head">
+      <h2>Speaker B</h2>
+      <span class="voice-badge" data-badge>Stock voice</span>
+    </div>
+    <div class="langs">
+      <label>I speak <select data-src></select></label>
+      <label>I hear <select data-hear></select></label>
+      <p class="hint ad-hint" data-src-hint>Auto-detect can mislabel English or mixed Hindi-English. Pick a language for best results.</p>
+    </div>
+    <div class="feed" data-feed aria-live="polite"></div>
+    <button class="talk" data-talk type="button" aria-label="Tap to talk as speaker B"><span class="ring"></span><span class="talk-label">Tap to talk</span><span class="recording-time" data-rec-time hidden>0:00</span><span class="key">key L</span></button>
+    <form class="text-turn" data-text-turn>
+      <label for="text-b">Type instead</label>
+      <div class="text-turn-row"><input id="text-b" data-text-input maxlength="2000" autocomplete="off"><button type="submit">Send</button></div>
+    </form>
+    <details class="enroll">
+      <summary>Clone my voice</summary>
+      <label class="consent"><input type="checkbox" data-consent> This is my own voice, or the speaker has agreed to be cloned.</label>
+      <p class="hint">Speak naturally for 10 to 20 seconds, in a quiet place.</p>
+      <div class="enroll-actions">
+        <button type="button" class="enroll-btn" data-enroll>Record voice sample</button>
+        <button type="button" class="enroll-btn secondary" data-play-sample disabled>Play my sample</button>
+        <button type="button" class="enroll-btn secondary" data-preview>Preview my voice</button>
+        <button type="button" class="enroll-btn secondary danger" data-remove-voice>Remove my voice</button>
+      </div>
+    </details>
+  </section>
+</main>
+
+<footer class="latency" aria-label="Last turn timing">
+  <div class="lat-title">Last turn</div>
+  <div class="lat-bar" id="latbar"><span class="seg stt" style="flex:1"></span><span class="seg llm" style="flex:1"></span><span class="seg tts" style="flex:1"></span></div>
+  <div class="lat-legend">
+    <span><i class="dot stt"></i>Prisma listens <b id="t-stt">-</b></span>
+    <span><i class="dot llm"></i>Translate <b id="t-llm">-</b></span>
+    <span><i class="dot tts"></i>Timbre speaks <b id="t-tts">-</b></span>
+    <span class="total">Total <b id="t-total">-</b></span>
+  </div>
+  <p class="credit">Built with Gnani Prisma (speech recognition) and Gnani Timbre (speech + voice cloning, beta). Voice cloning needs consent.</p>
+</footer>
+
+<div id="toast" role="status" aria-live="assertive"></div>
+<script src="/static/app.js"></script>
+</body>
+</html>
